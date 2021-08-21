@@ -32,83 +32,95 @@ if __name__ == '__main__':
     #                                                     'app_banner': 2, 'site_engagement': 2, 'durable_storage': 2}}
     # options.add_experimental_option('prefs', prefs)
     #driver_time = driver = webdriver.Chrome(executable_path="c:/chromedriver.exe", options=options)
-    driver_time = driver = webdriver.Chrome(executable_path="c:/chromedriver.exe", options=options)
-    driver_time.get("https://time.navyism.com/?host=keyescape.co.kr")
+
+    name = "이기명"
+    phonenum = "90611814"
+    resdate = "1"
+    driver = webdriver.Chrome(executable_path="C:/chromedriver/chromedriver.exe")
+    url = 'https://keyescape.co.kr/web/home.php?go=rev.make'
+    driver.get(url)
+    
+
+    # driver_time = webdriver.Chrome(executable_path="C:/chromedriver/chromedriver.exe")
+    # driver_time.get("https://time.navyism.com/?host=keyescape.co.kr")
+    # wait = WebDriverWait(driver_time, 10)
+    # wait.until(EC.element_to_be_clickable((By.ID, "msec_check"))).click()  # 홍대
+
+    # print("wait till 12:00")
+    # while True:
+    #     a = driver_time.find_element_by_id('time_area').text
+    #     b = driver_time.find_element_by_id('msec_area').text
+
+    #     print (a)
+    #     times = re.findall("[0-9]+", a)
+    #     i = 1
+
+    #     if(times[4]=='33' and times[5]=='59'): # 분, 초
+    #         msec = re.findall("[0-9]+", b)
+    #         if(int(msec[0])>=800):
+    #             break;
+
+    # driver_time.close()
+    # # driver.switch_to_window(driver.window_handles[1])
+    
     wait = WebDriverWait(driver, 10)
-    wait.until(EC.element_to_be_clickable((By.ID, "msec_check"))).click()  # 홍대
+    driver.refresh()
+    
+  
+    zizum = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"zizum_data\"] / a[7] / li"))).click() #홍대
+    print("zizum clicked")
+    wait = WebDriverWait(driver, 10)
+    
+    #have to change date
+    time.sleep(0.2)
+    #change month
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"calendar_data\"]/div/li[3]/a/img"))).click()
+    wait = WebDriverWait(driver, 10)
+    time.sleep(0.1)
+    
+    dates = driver.find_elements_by_xpath("//*[@id=\"calendar_data\"]/table/tbody/tr/td/a") #25일
+    for date in dates:
+        print(type(date.get_attribute("innerText")))
+        if date.get_attribute("innerText") == resdate:
+            date.click()
+            break
+
+    wait = WebDriverWait(driver, 10)
+    print("date clicked")
+    time.sleep(0.5)
+    
+    #theme select
+    #theme = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"theme_data\"]/a/li"))).click() # US
+    theme = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"theme_data\"]/a[3]/li"))).click()  # 고백
+    wait = WebDriverWait(driver, 10)
+    print("theme clicked")
+    time.sleep(0.5)
+    
+    #time select
+    time = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"theme_time_data\"] / a[1] / li"))).click() #첫타임
+    print("time clicked")
+    
+    enter = driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/div/a[1]")[0].click()
+    
+    #name
+    wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"contents\"]/div/div/form/table/tbody/tr[5]/td/input"))).send_keys(name)
+    
+    #phone have to split
+    driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[6]/td/input[1]")[0].send_keys(phonenum[:4])
+    driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[6]/td/input[2]")[0].send_keys(phonenum[4:])
+    
+    #people num
+    man4 = driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[7]/td/select/option[3]")[0].click()
+    
+    #spam
+    spam = driver.find_elements_by_xpath("// *[ @ id = \"contents\"] / div / div / form / table / tbody / tr[11] / td / span[1]")[0].text
+    print(spam)
+    driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[11]/td/input[1]")[0].send_keys(spam)
+    
+    #agreeterm
+    driver.find_elements_by_xpath("//*[@id=\"rev_agree\"]/input[1]")[0].click()
+
+    # enter = driver.find_elements_by_xpath("//*[@id="but_exe"]")[0].click()
 
     while True:
-        a = driver_time.find_element_by_id('time_area').text
-        b = driver_time.find_element_by_id('msec_area').text
-
-        print (a)
-        print (b)
-        times = re.findall("[0-9]+", a)
-        i = 1
-
-        if(times[4]=='01' and times[5]=='29'): # 분, 초
-            msec = re.findall("[0-9]+", b)
-            if(int(msec[0])>=800):
-                break;
-
-    driver_time.close()
-
-    # name = "이기명"
-    # phonenum = "90611814"
-    #
-    # driver = webdriver.Chrome(executable_path="c:/chromedriver.exe", options=options)
-    # url = 'https://keyescape.co.kr/web/home.php?go=rev.make'
-    # driver.get(url)
-    # wait = WebDriverWait(driver, 10)
-    # driver.refresh()
-    #
-    #
-    # zizum = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"zizum_data\"] / a[7] / li"))).click() #홍대
-    # print("zizum clicked")
-    # wait = WebDriverWait(driver, 10)
-    # time.sleep(0.5)
-    #
-    # #have to change date
-    # date = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"calendar_data\"]/table/tbody/tr[5]/td[4]/a"))).click() #25일
-    # wait = WebDriverWait(driver, 10)
-    # print("date clicked")
-    # time.sleep(0.5)
-    #
-    # #theme select
-    # #theme = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"theme_data\"]/a/li"))).click() # US
-    # theme = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"theme_data\"]/a[3]/li"))).click()  # 고백
-    # wait = WebDriverWait(driver, 10)
-    # print("theme clicked")
-    # time.sleep(0.5)
-    #
-    # #time select
-    # time = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"theme_time_data\"] / a[1] / li"))).click() #첫타임
-    # print("time clicked")
-    #
-    # enter = driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/div/a[1]")[0].click()
-    #
-    # #name
-    # wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"contents\"]/div/div/form/table/tbody/tr[5]/td/input"))).send_keys(name)
-    #
-    # #phone have to split
-    # driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[6]/td/input[1]")[0].send_keys(phonenum[:4])
-    # driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[6]/td/input[2]")[0].send_keys(phonenum[4:])
-    #
-    # #people num
-    # man4 = driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[7]/td/select/option[3]")[0].click()
-    #
-    # #spam
-    # spam = driver.find_elements_by_xpath("// *[ @ id = \"contents\"] / div / div / form / table / tbody / tr[11] / td / span[1]")[0].text
-    # print(spam)
-    # driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[11]/td/input[1]")[0].send_keys(spam)
-    #
-    # #agreeterm
-    # driver.find_elements_by_xpath("//*[@id=\"rev_agree\"]/input[1]")[0].click()
-
-    #enter = driver.find_elements_by_xpath("//*[@id="but_exe"]")[0].click()
-
-# driver.find_element_by_id('login_id').send_keys('id')
-# driver.find_element_by_id('password').send_keys('password!')
-# driver.find_element_by_id('password').send_keys(Keys.ENTER)
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        pass

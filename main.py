@@ -44,47 +44,39 @@ if __name__ == '__main__':
     driver_time = webdriver.Chrome(executable_path="C:/chromedriver/chromedriver.exe", options=options)
     driver_time.get("https://time.navyism.com/?host=keyescape.co.kr")
     wait = WebDriverWait(driver_time, 100)
-    wait.until(EC.element_to_be_clickable((By.ID, "msec_check"))).click()  # 홍대
-    a = driver_time.find_element_by_id('time_area').text
-    b = driver_time.find_element_by_id('msec_area').text
+    wait.until(EC.element_to_be_clickable((By.ID, "msec_check"))).click()
 
-    print (a)
-    print(b)
-    # print("wait till 12:00")
-    # while True:
-    #     a = driver_time.find_element_by_id('time_area').text
-    #     b = driver_time.find_element_by_id('msec_area').text
+    print("wait till 12:00")
+    while True:
+        a = driver_time.find_element_by_id('time_area').text
+        b = driver_time.find_element_by_id('msec_area').text
 
-    #     print (a)
-    #     times = re.findall("[0-9]+", a)
-    #     i = 1
+        print (a)
+        times = re.findall("[0-9]+", a)
+        i = 1
 
-    #     if(times[4]=='34' and times[5]=='09'): # 분, 초
-    #         msec = re.findall("[0-9]+", b)
-    #         if(int(msec[0])>=800):
-    #             break;
+        if(times[4]=='59' and times[5]=='59'): # 분, 초
+            msec = re.findall("[0-9]+", b)
+            if(int(msec[0])>=800):
+                break
 
-    # driver_time.close()
+    driver_time.close()
     
     wait = WebDriverWait(driver, 100)
-    driver.refresh()
-    a = driver_time.find_element_by_id('time_area').text
-    b = driver_time.find_element_by_id('msec_area').text
-
-    print (a)
-    print(b)   
+    driver.refresh() 
   
-    zizum = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"zizum_data\"] / a[1] / li"))).click() #홍대
-    print("zizum clicked")
-    wait = WebDriverWait(driver, 10)
+    # zizum = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"zizum_data\"] / a[1] / li"))).click() #지점
+    # print("zizum clicked")
+    # wait = WebDriverWait(driver, 10)
     
+    
+    # time.sleep(0.5)
+    #######change month
+    # wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"calendar_data\"]/div/li[3]/a/img"))).click()
+    # wait = WebDriverWait(driver, 10)
+    # time.sleep(0.1)
+
     #have to change date
-    time.sleep(0.5)
-    #change month
-    wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"calendar_data\"]/div/li[3]/a/img"))).click()
-    wait = WebDriverWait(driver, 10)
-    time.sleep(0.1)
-    
     dates = driver.find_elements_by_xpath("//*[@id=\"calendar_data\"]/table/tbody/tr/td/a") #일
     for date in dates:
         print(type(date.get_attribute("innerText")))
@@ -102,10 +94,10 @@ if __name__ == '__main__':
     wait = WebDriverWait(driver, 10)
     print("theme clicked")
     time.sleep(0.5)
-    
+
     #time select
     wait = WebDriverWait(driver, 10)
-    time = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"theme_time_data\"] / a[6] / li"))).click() #타임
+    time = wait.until(EC.element_to_be_clickable((By.XPATH, "// *[ @ id = \"theme_time_data\"] / a[8] / li"))).click() #타임
     print("time clicked")
     
     enter = driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/div/a[1]")[0].click()

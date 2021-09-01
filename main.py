@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     name = "이기명"
     phonenum = "90611814"
-    resdate = "8"
+    resdate = "9"
     driver = webdriver.Chrome(executable_path="C:/chromedriver/chromedriver.exe")
     url = 'https://keyescape.co.kr/web/home.php?go=rev.make'
     driver.get(url)
@@ -57,10 +57,10 @@ if __name__ == '__main__':
 
         if(times[4]=='59' and times[5]=='59'): # 분, 초
             msec = re.findall("[0-9]+", b)
-            if(int(msec[0])>=800):
+            if(int(msec[0])>=900):
                 break
 
-    driver_time.close()
+    # driver_time.close()
     
     wait = WebDriverWait(driver, 100)
     driver.refresh() 
@@ -70,7 +70,9 @@ if __name__ == '__main__':
     # wait = WebDriverWait(driver, 10)
     
     
-    # time.sleep(0.5)
+    time.sleep(0.5)
+
+
     #######change month
     # wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id=\"calendar_data\"]/div/li[3]/a/img"))).click()
     # wait = WebDriverWait(driver, 10)

@@ -1,4 +1,3 @@
-# This is a sample Python script.
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,16 +5,10 @@ from selenium.webdriver.support import expected_conditions as EC
 import re
 import time
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     options = webdriver.ChromeOptions()  # 크롬 옵션 객체 생성
-    options.add_argument('headless')  # headless 모드 설정
-    options.add_argument("window-size=1920x1080")  # 화면크기(전체화면)
+    options.add_argument('headless')  # 창 없이
+    options.add_argument("window-size=1920x1080")
     options.add_argument("disable-gpu")
     options.add_argument("disable-infobars")
     options.add_argument("--disable-extensions")
@@ -35,30 +28,33 @@ if __name__ == '__main__':
 
     name = "이기명"
     phonenum = "90611814"
+    resmonth = 9
     resdate = "9"
     driver = webdriver.Chrome(executable_path="C:/chromedriver/chromedriver.exe")
     url = 'https://keyescape.co.kr/web/home.php?go=rev.make'
     driver.get(url)
-    
+    test = True
 
-    driver_time = webdriver.Chrome(executable_path="C:/chromedriver/chromedriver.exe", options=options)
-    driver_time.get("https://time.navyism.com/?host=keyescape.co.kr")
-    wait = WebDriverWait(driver_time, 100)
-    wait.until(EC.element_to_be_clickable((By.ID, "msec_check"))).click()
+    if not test :
+        #네이비즘 시간 연동
+        driver_time = webdriver.Chrome(executable_path="C:/chromedriver/chromedriver.exe", options=options)
+        driver_time.get("https://time.navyism.com/?host=keyescape.co.kr")
+        wait = WebDriverWait(driver_time, 100)
+        wait.until(EC.element_to_be_clickable((By.ID, "msec_check"))).click()
 
-    print("wait till 12:00")
-    while True:
-        a = driver_time.find_element_by_id('time_area').text
-        b = driver_time.find_element_by_id('msec_area').text
+        print("wait till 12:00")
+        while True:
+            a = driver_time.find_element_by_id('time_area').text
+            b = driver_time.find_element_by_id('msec_area').text
 
-        print (a)
-        times = re.findall("[0-9]+", a)
-        i = 1
+            print (a)
+            times = re.findall("[0-9]+", a)
+            i = 1
 
-        if(times[4]=='59' and times[5]=='59'): # 분, 초
-            msec = re.findall("[0-9]+", b)
-            if(int(msec[0])>=900):
-                break
+            if(times[4]=='59' and times[5]=='59'): # 분, 초
+                msec = re.findall("[0-9]+", b)
+                if(int(msec[0])>=900):
+                    break
 
     # driver_time.close()
     

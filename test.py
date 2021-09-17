@@ -97,20 +97,67 @@ class KeyEscape:
         try:
             times = self.driver.find_elements_by_xpath(xpath)
             for time in times:
-                print(time.get_attribute("innerText"))
-                if time.get_attribute("innerText") == self.info.time:
+                print(time.get_attribute("innerText") , self.info.time)
+                if time.get_attribute("innerText")[:-1] == self.info.time:
                     time.click()
                     flag=1
                     break
             if flag:
-                self.submit()
+                sleep(0.1)
+                self.enter()
             else:
+                sleep(0.1)
                 self.time()
   
         except exceptions.StaleElementReferenceException as e:
             sleep(0.1)
             print("time error")
             self.time()
+
+    def enter(self):
+        try:
+            enter = self.driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/div/a[1]")[0].click()
+            self.formin()
+        except exceptions.StaleElementReferenceException as e:
+            sleep(0.1)
+            print("enter element error")
+            self.enter()
+        except exceptions.ElementClickInterceptedException as e:
+            sleep(0.1)
+            print("enter click error")
+            self.enter()
+    
+    def formin(self):
+        try:
+            self.driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[6]/td/input")[0].send_keys(self.info.name)
+
+            self.driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[7]/td/input[1]")[0].send_keys(self.info.phonenum[:4])
+            self.driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[7]/td/input[2]")[0].send_keys(self.info.phonenum[4:])
+ 
+            #people num
+            self.driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[8]/td/select/option[3]")[0].click()
+            #spam
+            spam = self.driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[12]/td/span[1]")[0].text
+            self.driver.find_elements_by_xpath("//*[@id=\"contents\"]/div/div/form/table/tbody/tr[12]/td/input[1]")[0].send_keys(spam)
+            
+            #agreeterm
+            self.driver.find_elements_by_xpath("//*[@id=\"rev_agree\"]/input[1]")[0].click()
+
+            self.driver.find_elements_by_xpath("//*[@id=\"but_exe\"]")[0].click()
+        except exceptions.StaleElementReferenceException as e:
+            sleep(0.1)
+            print("form error")
+            self.formin()
+        except IndexError as e:
+            sleep(0.1)
+            print("index error")
+            while True:
+                pass
+        except AttributeError as e:
+            sleep(0.1)
+            print("Attribute error")
+
+
 
 if __name__ == '__main__':
     data = input("기존 데이터 사용? 예: 1 아니요 : 0 \n 입력 : ")
